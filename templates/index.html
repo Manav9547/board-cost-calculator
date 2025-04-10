@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card p-4">
+        <h2 class="text-center mb-4">Board Cost Calculator</h2>
+
+        <form method="POST" class="row g-3">
+          <div class="col-md-6">
+            <label for="thickness" class="form-label">Board Thickness (mm)</label>
+            <select class="form-select" id="thickness" name="thickness" required>
+              <option value="">-- Select --</option>
+              {% for t in [4, 6, 9, 12, 18, 25, 30, 35] %}
+              <option value="{{t}}" {% if thickness == t %}selected{% endif %}>{{t}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="area" class="form-label">Area (sq. meters)</label>
+            <input type="number" class="form-control" step="0.01" name="area" id="area" required value="{{area or ''}}">
+          </div>
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary px-5">Calculate</button>
+          </div>
+        </form>
+
+        {% if error %}
+        <div class="alert alert-danger mt-3" role="alert">
+          {{ error }}
+        </div>
+        {% endif %}
+
+        {% if results %}
+        <div class="mt-4">
+          <h5>Results for {{ thickness }}mm Board ({{ area }} m²)</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead class="table-dark">
+                <tr>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in results %}
+                <tr>
+                  <td>{{ row.item }}</td>
+                  <td>{{ row.qty }}</td>
+                  <td>₹{{ row.rate }}</td>
+                  <td>₹{{ row.amount }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="summary-box mt-3">
+            <p><strong>Total:</strong> ₹{{ summary.total }}</p>
+            <p><strong>Expenses (11.8%):</strong> ₹{{ summary.exps }}</p>
+            <p><strong>Total + Expenses:</strong> ₹{{ summary.total1 }}</p>
+            <p><strong>Profit (16.5%):</strong> ₹{{ summary.profit }}</p>
+            <p><strong>Total With Profit:</strong> ₹{{ summary.final_total }}</p>
+            <p><strong>Rate per Sq. Meter:</strong> ₹{{ summary.rate_per_sqm }}</p>
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

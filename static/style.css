@@ -1,0 +1,22 @@
+body {
+    background-color: #f4f6f9;
+  }
+  
+  .card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .form-select, .form-control {
+    font-size: 16px;
+  }
+  
+  .summary-box {
+    background: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
